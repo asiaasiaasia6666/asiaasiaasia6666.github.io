@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   'use strict';
 
   const $ = (selector) => document.querySelector(selector);
@@ -155,6 +155,9 @@
     const next = index < window.BOOK_CHAPTERS.length - 1
       ? `<a href="#${chapterHash(index + 1)}"><small>下一章</small><strong>${escapeHtml(window.BOOK_CHAPTERS[index + 1].title)}</strong></a>`
       : `<a class="disabled" aria-disabled="true"><small>下一章</small><strong>故事到这里结束</strong></a>`;
+    const closingNote = index === window.BOOK_CHAPTERS.length - 1
+      ? `<aside class="closing-note" aria-label="书末说明">本故事纯属虚构，除了真实的部分。</aside>`
+      : '';
 
     reader.innerHTML = `
       <div class="chapter">
@@ -162,6 +165,7 @@
         <h1>${escapeHtml(chapter.title)}</h1>
         <div class="chapter-meta"><span>第 ${index + 1} / ${window.BOOK_CHAPTERS.length} 章</span><span>约 ${readingMinutes(chapter.text)} 分钟</span><span>${chapter.text.length.toLocaleString('zh-CN')} 字</span><span>${phase.label}</span></div>
         <div class="chapter-body">${paragraphs}</div>
+        ${closingNote}
       </div>
       <nav class="chapter-nav" aria-label="章节翻页">${previous}${next}</nav>
     `;
@@ -330,3 +334,4 @@
 
   init();
 })();
+
